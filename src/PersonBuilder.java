@@ -6,22 +6,21 @@ public class PersonBuilder {
     private String address;
 
     public PersonBuilder setName(String name) {
-        if(name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Имя не может быть пустым");
-        }
+
         this.name = name;
         return this;
     }
 
     public PersonBuilder setSurname(String surname) {
-        if ((surname == null || surname.isEmpty())) {
-            throw new IllegalArgumentException("Фамилия не может быть пустой");
-        }
+
         this.surname = surname;
         return this;
     }
 
     public PersonBuilder setAge(int age) {
+        if (age < 0) {
+            throw new IllegalArgumentException("Возраст не может быть отрицательным");
+        }
 
         this.age = age;
         this.hasAgeValue = true;
@@ -32,21 +31,34 @@ public class PersonBuilder {
         this.address = address;
         return this;
     }
-
     public Person build() {
+        if (name == null) {
+            throw new IllegalStateException("Имя обязательно для заполнения");
+        }
+        if (surname == null) {
+            throw new IllegalStateException("Фамилия обязательна для заполнения");
+        }
 
 
-        Person person = new Person(name, surname);
+
+        Person person = new Person(name,surname);
         if (hasAgeValue) {
             person.age = age;
             person.hasAgeValue = true;
         }
         if (address != null) {
             person.setAddress(address);
-            person.hasAddressValue = true;
+
         }
         return person;
-
-
     }
+
+
 }
+
+
+
+
+
+
+
